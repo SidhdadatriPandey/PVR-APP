@@ -29,11 +29,11 @@ const TheaterScreen: React.FC = () => {
     const { seats, setSeats, movies, setMovies } = useContext(MoviesCards) as MoviesCardsContext;
 
     const onSeatSelect = (seat: string) => {
-        movies.map((itm: any, index: number) => {
-            if (itm.name === route.params.name) {
-                if (itm.occ1[route.params.mall]?.includes(seat)) return;
-            }
-        })
+        // movies.map((itm: any, index: number) => {
+        //     if (itm.name === route.params.name) {
+        //         if (itm.occ1[route.params.mall]?.includes(seat)) return;
+        //     }
+        // })
         const seatSelected = seats.includes(seat);
         if (seatSelected) {
             setSeats(seats.filter((s) => s !== seat));
@@ -174,7 +174,6 @@ const TheaterScreen: React.FC = () => {
                 style={{ width: '100%' }}
                 renderItem={({ item }) => (
                     <Pressable
-                        onPress={() => onSeatSelect(item)}
                         style={{
                             margin: hp(1),
                             width: wp(9.7),
@@ -188,10 +187,12 @@ const TheaterScreen: React.FC = () => {
                         <View>
                             {
                                 seats.includes(item) ? (
-                                    <Text style={{
-                                        backgroundColor: "#ffc40c", padding: hp(.6), fontSize: hp(2), borderWidth: hp(.15),
-                                        borderRadius: hp(.4),
-                                    }}>{item}</Text>
+                                    <Pressable onPress={() => onSeatSelect(item)}>
+                                        <Text style={{
+                                            backgroundColor: "#ffc40c", padding: hp(.6), fontSize: hp(2), borderWidth: hp(.15),
+                                            borderRadius: hp(.4),
+                                        }}>{item}</Text>
+                                    </Pressable>
                                 ) : (
                                     (() => {
                                         let found = false;
@@ -210,10 +211,12 @@ const TheaterScreen: React.FC = () => {
                                                 }}>{item}</Text>
                                             );
                                         } else {
-                                            return <Text style={{
-                                                padding: hp(.6), fontSize: hp(2), borderWidth: hp(.15),
-                                                borderRadius: hp(.4),
-                                            }}>{item}</Text>;
+                                            return <Pressable onPress={() => onSeatSelect(item)}>
+                                                <Text style={{
+                                                    padding: hp(.6), fontSize: hp(2), borderWidth: hp(.15),
+                                                    borderRadius: hp(.4),
+                                                }}>{item}</Text>
+                                            </Pressable>;
                                         }
                                     })()
                                 )
